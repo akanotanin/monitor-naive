@@ -32,7 +32,7 @@ execFileSync('tar', ['--format=ustar', '-czf', archive, '-C', staging, 'theme.js
 })
 
 // 版本化副本，方便手动下载归档
-const versioned = `release/monitor-${meta.short}-${meta.version}.tar.gz`
+const versioned = `release/monitor-theme-${meta.short}-${meta.version}.tar.gz`
 cpSync(archive, versioned)
 writeFileSync(`${archive}.sha256`, `${createHash('sha256').update(readFileSync(archive)).digest('hex')}  ${archive.split('/').at(-1)}\n`)
 

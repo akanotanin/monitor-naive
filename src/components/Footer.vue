@@ -81,7 +81,7 @@ const showFiling = computed(() => showIcp.value || showPolice.value)
             Theme by
           </NText>
           <a
-            href="https://github.com/akanotanin/monitor-naive"
+            href="https://github.com/akanotanin/monitor-theme-naive"
             target="_blank"
             rel="noopener noreferrer"
             class="text-decoration-none transition-opacity hover:opacity-80"

@@ -19,6 +19,10 @@
 
 ## 更新
 
+### 1.0.2
+
+- 仓库地址改为 `monitor-theme-naive`，主题清单里的更新地址同步指向新地址。
+
 ### 1.0.1
 
 - 主题改名为 **Monitor Naive**（原「Naive · 极简探针」），浏览器标题与页脚署名同步更新。
@@ -54,7 +58,7 @@
 
 需要极简探针 **1.3.0 或更高版本**（主题配置接口自该版本提供）。
 
-在后台「主题」→「上传主题包」，选择 [Releases](https://github.com/akanotanin/monitor-naive/releases) 中的 `theme.tar.gz` 并启用。
+在后台「主题」→「上传主题包」，选择 [Releases](https://github.com/akanotanin/monitor-theme-naive/releases) 中的 `theme.tar.gz` 并启用。
 
 ## 数据映射
 
