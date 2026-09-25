@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NAvatar, NButton, NFlex, NH3, NPopover } from 'naive-ui'
+import { NButton, NFlex, NH3, NPopover } from 'naive-ui'
 import { computed, inject, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
@@ -9,8 +9,6 @@ const appStore = useAppStore()
 
 // 从 Provider 注入滚动状态
 const isScrolled = inject<ReturnType<typeof ref<boolean>>>('isScrolled', ref(false))
-
-const siteFavicon = ref('/favicon.ico')
 
 // 计算页面容器的样式
 const containerStyle = computed(() => {
@@ -74,12 +72,11 @@ function handleButtonClick(action: string) {
 <template>
   <div class="transition-all duration-200 top-0 position-sticky z-10" :class="isScrolled ? 'bg-$n-color shadow-sm backdrop-blur-md' : 'bg-transparent'">
     <div class="px-4 flex-between h-16" :style="containerStyle">
-      <NFlex class="flex-center cursor-pointer" @click="router.push('/')">
-        <NAvatar :src="siteFavicon" :fallback-src="`${siteFavicon}?avatar`" round />
-        <NH3 class="m-0">
+      <div class="flex items-center cursor-pointer" @click="router.push('/')">
+        <NH3 class="m-0! text-[21px]! font-semibold! leading-none tracking-tight">
           {{ appStore.publicSettings?.sitename || 'Monitor' }}
         </NH3>
-      </NFlex>
+      </div>
       <NFlex class="flex gap-4">
         <NPopover v-for="button in actionButtons" :key="button.action" :disabled="button.disabled">
           <template #trigger>
