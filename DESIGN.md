@@ -1,8 +1,8 @@
-# Naive · 极简探针 Design System
+# Monitor Naive Design System
 
 ## 1. Direction
 
-Naive · 极简探针 is a quiet operational dashboard. Preserve Naive UI's restrained green accent, neutral surfaces, fine borders, compact typography, and optional translucent background treatment. Optimization should improve scan speed and information density without turning the monitor into a decorative landing page.
+Monitor Naive is a quiet operational dashboard. Preserve Naive UI's restrained green accent, neutral surfaces, fine borders, compact typography, and optional translucent background treatment. Optimization should improve scan speed and information density without turning the monitor into a decorative landing page.
 
 Reference note: the Komari Emerald theme informs the group-aware summary behavior and compact dashboard hierarchy. Its globe, visitor, finance, and decorative surface treatments are intentionally excluded to preserve Naive's existing product scope and visual identity.
 

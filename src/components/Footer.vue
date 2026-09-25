@@ -81,13 +81,13 @@ const showFiling = computed(() => showIcp.value || showPolice.value)
             Theme by
           </NText>
           <a
-            href="https://github.com/akanotanin/komari-theme-naive-monitor"
+            href="https://github.com/akanotanin/monitor-naive"
             target="_blank"
             rel="noopener noreferrer"
             class="text-decoration-none transition-opacity hover:opacity-80"
           >
             <NText type="primary" class="text-sm font-medium">
-              Naive · 极简探针
+              Monitor Naive
             </NText>
           </a>
           <NText :depth="3" class="text-xs font-mono ml-1">

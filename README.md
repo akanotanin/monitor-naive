@@ -1,10 +1,10 @@
-# Naive for 极简探针
+# Monitor Naive
 
-![Naive 主题首页预览](preview.png)
+![Monitor Naive 主题首页预览](preview.png)
 
-将 [lyimoexiao/komari-theme-naive](https://github.com/lyimoexiao/komari-theme-naive) 移植到 [极简探针 Monitor](https://github.com/monitor-probe/monitor)。基于原版 v1.1.2 的 Vue 源码、组件、样式与资源，数据改由 Monitor 的 REST / WebSocket 接口提供，不需要 Komari 服务器。
+将 [lyimoexiao/komari-theme-naive](https://github.com/lyimoexiao/komari-theme-naive) 移植到 [极简探针 Monitor](https://github.com/monitor-probe/monitor) 的主题，取名 **Monitor Naive**。基于原版 v1.1.2 的 Vue 源码、组件、样式与资源，数据改由 Monitor 的 REST / WebSocket 接口提供，不需要 Komari 服务器。
 
-当前版本 1.0.0，保留原项目 MIT 许可与作者署名；移植与适配 by akanotanin。
+当前版本 1.0.1，保留原项目 MIT 许可与作者署名；移植与适配 by akanotanin。主题的内部标识保持 `naive`（安装目录名与配置键）。
 
 ## 主要功能
 
@@ -18,6 +18,11 @@
 - **公告与备案**：Markdown 公告（含标题与类型）、ICP 与公安备案号。
 
 ## 更新
+
+### 1.0.1
+
+- 主题改名为 **Monitor Naive**（原「Naive · 极简探针」），浏览器标题与页脚署名同步更新。
+- 仓库更名，主题清单里的更新地址指向新仓库。
 
 ### 1.0.0
 
@@ -49,7 +54,7 @@
 
 需要极简探针 **1.3.0 或更高版本**（主题配置接口自该版本提供）。
 
-在后台「主题」→「上传主题包」，选择 [Releases](https://github.com/akanotanin/komari-theme-naive-monitor/releases) 中的 `theme.tar.gz` 并启用。
+在后台「主题」→「上传主题包」，选择 [Releases](https://github.com/akanotanin/monitor-naive/releases) 中的 `theme.tar.gz` 并启用。
 
 ## 数据映射
 

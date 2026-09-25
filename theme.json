@@ -1,10 +1,10 @@
 {
-  "name": "Naive · 极简探针",
+  "name": "Monitor Naive",
   "short": "naive",
-  "description": "极简探针的 Naive UI 风格主题：卡片 / 列表双视图、节点详情多标签图表、亮暗色与自定义背景。",
-  "version": "1.0.0",
+  "description": "极简探针（Monitor）的 Naive UI 风格主题：卡片 / 列表双视图、节点详情多标签图表、亮暗色与自定义背景。",
+  "version": "1.0.1",
   "author": "lyimoexiao（原主题作者）· 移植到 Monitor by akanotanin",
-  "url": "https://github.com/akanotanin/komari-theme-naive-monitor",
+  "url": "https://github.com/akanotanin/monitor-naive",
   "config": [
     {
       "type": "title",
