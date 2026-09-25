@@ -2,7 +2,7 @@
   "name": "Monitor Naive",
   "short": "naive",
   "description": "极简探针（Monitor）的 Naive UI 风格主题：卡片 / 列表双视图、节点详情多标签图表、亮暗色与自定义背景。",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "lyimoexiao（原主题作者）· 移植到 Monitor by akanotanin",
   "url": "https://github.com/akanotanin/monitor-theme-naive",
   "config": [
@@ -227,14 +227,14 @@
       "type": "string",
       "key": "listViewColumns",
       "label": "显示列",
-      "default": "[\"status\",\"region\",\"name\",\"uptime\",\"tags\",\"os\",\"cpu\",\"mem\",\"disk\",\"traffic\"]",
+      "default": "[\"status\",\"region\",\"name\",\"uptime\",\"rate\",\"os\",\"cpu\",\"mem\",\"disk\",\"traffic\"]",
       "help": "List 视图下显示的列，JSON 数组格式"
     },
     {
       "type": "string",
       "key": "listColumnWidths",
       "label": "列宽度配置",
-      "default": "{\"status\":\"76px\",\"region\":\"32px\",\"name\":\"minmax(200px, 1fr)\",\"uptime\":\"minmax(180px, 0.6fr)\",\"tags\":\"minmax(220px, 0.6fr)\",\"os\":\"120px\",\"cpu\":\"180px\",\"mem\":\"180px\",\"disk\":\"180px\",\"traffic\":\"180px\"}",
+      "default": "{\"status\":\"76px\",\"region\":\"32px\",\"name\":\"minmax(200px, 1fr)\",\"uptime\":\"minmax(180px, 0.6fr)\",\"rate\":\"minmax(160px, 0.6fr)\",\"os\":\"120px\",\"cpu\":\"180px\",\"mem\":\"180px\",\"disk\":\"180px\",\"traffic\":\"180px\"}",
       "help": "List 视图各列宽度配置，JSON 对象格式"
     },
     {

@@ -9,7 +9,7 @@ import { useAppStore } from '@/stores/app'
 import { formatBytesPerSecondWithConfig, formatBytesWithConfig, formatDateTime, formatUptimeWithFormat, getStatus } from '@/utils/helper'
 import { getOSImage, getOSName } from '@/utils/osImageHelper'
 import { getRegionCode, getRegionDisplayName } from '@/utils/regionHelper'
-import { formatPriceWithCycle, getDaysUntilExpired, getExpireStatus, getExpireStatusHexColor, parseTags } from '@/utils/tagHelper'
+import { parseTags } from '@/utils/tagHelper'
 
 const props = defineProps<{
   node: NodeData
@@ -92,50 +92,14 @@ const trafficUsed = computed(() => {
   }
 })
 
-// 计算节点的价格相关标签（剩余天数 + 价格）
-const priceTags = computed(() => {
-  const tags: Array<{ text: string, color: string }> = []
-  const lang = appStore.lang
-  const node = props.node
-
-  // price > 0 时显示
-  if (node.price !== 0) {
-    // 剩余天数标签
-    const days = getDaysUntilExpired(node.expired_at, node.expires_in)
-    const status = getExpireStatus(node.expired_at, node.expires_in)
-    const color = getExpireStatusHexColor(status)
-
-    if (status === 'expired') {
-      tags.push({ text: lang === 'zh-CN' ? '已过期' : 'Expired', color })
-    }
-    else if (status === 'long_term') {
-      tags.push({ text: lang === 'zh-CN' ? '长期' : 'Long-term', color })
-    }
-    else {
-      tags.push({ text: lang === 'zh-CN' ? `剩余 ${days} 天` : `${days} days left`, color })
-    }
-
-    // 价格标签
-    const priceText = formatPriceWithCycle(node.price, node.billing_cycle, node.currency, lang)
-    tags.push({ text: priceText, color: themeVars.value.infoColor }) // purple
-  }
-
-  return tags
-})
-
 // 计算节点的自定义标签
 const customTags = computed(() => {
   return parseTags(props.node.tags).map(tag => ({ text: tag.text, color: tag.hex }))
 })
 
-// 计算合并后的标签（自定义标签 + 价格标签）
-const mergedTags = computed(() => {
-  return [...customTags.value, ...priceTags.value]
-})
-
 // 是否在单独一行显示标签
 const shouldShowTagsInSeparateRow = computed(() => {
-  return appStore.tagsInSeparateRow && mergedTags.value.length > 0
+  return appStore.tagsInSeparateRow && customTags.value.length > 0
 })
 
 const visibleMetrics = computed(() => new Set(appStore.cardMetrics))
@@ -347,17 +311,6 @@ function handleCardKeydown(event: KeyboardEvent): void {
                 运行时间
               </NText>
               <div class="flex gap-2 items-center">
-                <!-- 当标签不在单独一行显示时，价格标签显示在运行时间行 -->
-                <template v-if="!shouldShowTagsInSeparateRow">
-                  <NTag
-                    v-for="(tag, index) in priceTags"
-                    :key="index"
-                    size="small"
-                    :color="{ color: `${tag.color}20`, textColor: tag.color, borderColor: `${tag.color}40` }"
-                  >
-                    {{ tag.text }}
-                  </NTag>
-                </template>
                 <!-- 根据 uptimeTagWrap 配置选择显示方式 -->
                 <NTag v-if="appStore.uptimeTagWrap" size="small" :color="{ color: `#8b5cf620`, textColor: '#8b5cf6', borderColor: `#8b5cf640` }">
                   {{ formatUptime(props.node.uptime ?? 0) }}
@@ -375,7 +328,7 @@ function handleCardKeydown(event: KeyboardEvent): void {
               </NText>
               <div class="flex flex-wrap gap-1 items-center justify-end">
                 <NTag
-                  v-for="(tag, index) in mergedTags"
+                  v-for="(tag, index) in customTags"
                   :key="index"
                   size="small"
                   :color="{ color: `${tag.color}20`, textColor: tag.color, borderColor: `${tag.color}40` }"

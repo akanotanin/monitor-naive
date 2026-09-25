@@ -9,7 +9,7 @@ import { useAppStore } from '@/stores/app'
 import { formatBytesPerSecondWithConfig, formatBytesWithConfig, formatDateTime, formatUptimeWithFormat, getStatus } from '@/utils/helper'
 import { getOSImage, getOSName } from '@/utils/osImageHelper'
 import { getRegionCode, getRegionDisplayName } from '@/utils/regionHelper'
-import { formatPriceWithCycle, getDaysUntilExpired, getExpireStatus, parseTags } from '@/utils/tagHelper'
+import { parseTags } from '@/utils/tagHelper'
 
 const props = defineProps<{
   nodes: NodeData[]
@@ -261,50 +261,11 @@ function formatOfflineTime(node: NodeData): string {
   return formatDateTime(node.time)
 }
 
-// 根据过期状态获取颜色
-function getExpireBadgeColor(status: string): string {
-  switch (status) {
-    case 'expired':
-    case 'critical':
-      return '#E54D2E' // 红色
-    case 'warning':
-      return '#F97316' // 橙色
-    case 'long_term':
-      return '#8D8D8D' // 灰色
-    case 'normal':
-    default:
-      return '#30A46C' // 绿色
-  }
-}
-
-// 计算节点的标签列表（返回颜色）
+// 计算节点的标签列表（返回颜色）：只保留节点自带的自定义标签
 function getNodeTags(node: NodeData): Array<{ text: string, color: string }> {
   const tags: Array<{ text: string, color: string }> = []
-  const lang = appStore.lang
 
-  // 前两个标签：剩余天数和价格（price > 0 时显示）
-  if (node.price !== 0) {
-    // 剩余天数标签
-    const days = getDaysUntilExpired(node.expired_at, node.expires_in)
-    const status = getExpireStatus(node.expired_at, node.expires_in)
-    const color = getExpireBadgeColor(status)
-
-    if (status === 'expired') {
-      tags.push({ text: lang === 'zh-CN' ? '已过期' : 'Expired', color })
-    }
-    else if (status === 'long_term') {
-      tags.push({ text: lang === 'zh-CN' ? '长期' : 'Long-term', color })
-    }
-    else {
-      tags.push({ text: lang === 'zh-CN' ? `剩余 ${days} 天` : `${days} days left`, color })
-    }
-
-    // 价格标签
-    const priceText = formatPriceWithCycle(node.price, node.billing_cycle, node.currency, lang)
-    tags.push({ text: priceText, color: '#0090FF' }) // 蓝色
-  }
-
-  // 后续标签：从 tags 字段解析
+  // 从 tags 字段解析
   const customTags = parseTags(node.tags)
   for (const tag of customTags) {
     tags.push({ text: tag.text, color: tag.hex })
@@ -325,7 +286,7 @@ const columnTitles: Record<string, string> = {
   mem: '内存',
   disk: '硬盘',
   traffic: '流量',
-  rate: '速率',
+  rate: '网络速率',
 }
 </script>
 

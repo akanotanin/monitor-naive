@@ -1,34 +1,11 @@
 <script setup lang="ts">
-import type { VersionInfo } from '@/types/komari'
 import { NLayoutFooter, NText } from 'naive-ui'
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { useGlassSurface } from '@/composables/useGlassSurface'
 import { useAppStore } from '@/stores/app'
-import { getSharedRpc } from '@/utils/rpc'
 
 const appStore = useAppStore()
 const { glassSurfaceStyle, isGlassEnabled } = useGlassSurface()
-const rpc = getSharedRpc()
-
-// 构建时注入的版本信息
-const buildVersion = __BUILD_VERSION__
-const buildGitHash = __BUILD_GIT_HASH__
-
-// Komari Monitor 服务端版本信息
-const serverVersion = ref<VersionInfo | null>(null)
-
-// 获取服务端版本信息
-onMounted(async () => {
-  try {
-    serverVersion.value = await rpc.getBackendVersion()
-  }
-  catch {
-    // 静默失败
-  }
-})
-
-// 格式化版本号显示
-const formattedServerVersion = computed(() => serverVersion.value?.version ?? null)
 
 // 计算页面容器的样式
 const containerStyle = computed(() =>
@@ -40,64 +17,23 @@ const containerStyle = computed(() =>
 // 是否显示备案信息
 const showIcp = computed(() => appStore.icpEnabled && appStore.icpNumber)
 const showPolice = computed(() => appStore.policeEnabled && appStore.policeNumber)
+// 页脚只在需要展示备案信息时出现；未启用备案时不渲染，不留空位
 const showFiling = computed(() => showIcp.value || showPolice.value)
 </script>
 
 <template>
   <NLayoutFooter
+    v-if="showFiling"
     class="px-4 py-4 w-full"
     :class="{ 'glass-surface-enabled glass-footer-enabled': isGlassEnabled }"
     :style="glassSurfaceStyle"
   >
     <div
-      class="flex flex-col gap-3 w-full sm:flex-row sm:gap-4 sm:items-center sm:justify-between"
+      class="flex flex-wrap gap-2 items-center justify-center w-full"
       :style="containerStyle"
     >
-      <!-- 主信息区域 -->
-      <div class="flex flex-col gap-2 sm:flex-row sm:gap-6">
-        <!-- Komari Monitor 信息 -->
-        <div class="flex flex-wrap gap-1 items-center">
-          <NText :depth="3" class="text-sm">
-            Powered by
-          </NText>
-          <a
-            href="https://github.com/monitor-probe/monitor"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-decoration-none transition-opacity hover:opacity-80"
-          >
-            <NText type="primary" class="text-sm font-medium">
-              极简探针 Monitor
-            </NText>
-          </a>
-          <NText v-if="formattedServerVersion" :depth="3" class="text-xs font-mono ml-1">
-            v{{ formattedServerVersion }}
-          </NText>
-        </div>
-
-        <!-- 主题信息 -->
-        <div class="flex flex-wrap gap-1 items-center">
-          <NText :depth="3" class="text-sm">
-            Theme by
-          </NText>
-          <a
-            href="https://github.com/akanotanin/monitor-theme-naive"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-decoration-none transition-opacity hover:opacity-80"
-          >
-            <NText type="primary" class="text-sm font-medium">
-              Monitor Naive
-            </NText>
-          </a>
-          <NText :depth="3" class="text-xs font-mono ml-1">
-            v{{ buildVersion }} ({{ buildGitHash }})
-          </NText>
-        </div>
-      </div>
-
       <!-- 备案信息区域 -->
-      <div v-if="showFiling" class="flex flex-wrap gap-2 items-center sm:flex-shrink-0">
+      <div v-if="showFiling" class="flex flex-wrap gap-2 items-center">
         <!-- ICP 备案 -->
         <a
           v-if="showIcp"
