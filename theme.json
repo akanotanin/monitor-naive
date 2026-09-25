@@ -1,0 +1,587 @@
+{
+  "name": "Naive · 极简探针",
+  "short": "naive",
+  "description": "极简探针的 Naive UI 风格主题：卡片 / 列表双视图、节点详情多标签图表、亮暗色与自定义背景。",
+  "version": "1.0.0",
+  "author": "lyimoexiao（原主题作者）· 移植到 Monitor by akanotanin",
+  "url": "https://github.com/akanotanin/komari-theme-naive-monitor",
+  "config": [
+    {
+      "type": "title",
+      "label": "运行与访问"
+    },
+    {
+      "type": "number",
+      "key": "dataUpdateInterval",
+      "label": "数据更新间隔",
+      "default": 3,
+      "min": 1,
+      "max": 60,
+      "help": "实时数据刷新间隔，单位：秒（建议 1-10 秒）"
+    },
+    {
+      "type": "select",
+      "key": "rpcTransportMode",
+      "label": "RPC 连接模式",
+      "default": "websocket",
+      "options": [
+        {
+          "value": "websocket",
+          "label": "websocket"
+        },
+        {
+          "value": "http",
+          "label": "http"
+        }
+      ],
+      "help": "RPC 默认连接模式，推荐使用 websocket，若您无法使用 websocket 请选择 http"
+    },
+    {
+      "type": "select",
+      "key": "defaultViewMode",
+      "label": "默认视图",
+      "default": "card",
+      "options": [
+        {
+          "value": "card",
+          "label": "card"
+        },
+        {
+          "value": "list",
+          "label": "list"
+        }
+      ],
+      "help": "访客首次打开首页时使用的节点视图"
+    },
+    {
+      "type": "boolean",
+      "key": "showLoginButton",
+      "label": "未登录状态显示登录按钮",
+      "default": true,
+      "help": "控制未登录状态下是否显示登录按钮"
+    },
+    {
+      "type": "boolean",
+      "key": "showPingChartButton",
+      "label": "显示延迟图表按钮",
+      "default": true,
+      "help": "在节点卡片和列表中显示查看延迟图表的按钮"
+    },
+    {
+      "type": "boolean",
+      "key": "hideSingleGroupTab",
+      "label": "单分组时隐藏 Tab",
+      "default": true,
+      "help": "当只有一个分组时，隐藏分组选择标签页"
+    },
+    {
+      "type": "title",
+      "label": "首页内容"
+    },
+    {
+      "type": "boolean",
+      "key": "showGeneralCards",
+      "label": "显示数据总览",
+      "default": true,
+      "help": "显示当前时间、在线节点、区域、总流量和实时速率"
+    },
+    {
+      "type": "title",
+      "label": "节点卡片"
+    },
+    {
+      "type": "select",
+      "key": "cardSize",
+      "label": "卡片尺寸",
+      "default": "comfortable",
+      "options": [
+        {
+          "value": "compact",
+          "label": "compact"
+        },
+        {
+          "value": "comfortable",
+          "label": "comfortable"
+        },
+        {
+          "value": "spacious",
+          "label": "spacious"
+        }
+      ],
+      "help": "compact 紧凑、comfortable 舒适、spacious 宽松"
+    },
+    {
+      "type": "number",
+      "key": "cardMinWidth",
+      "label": "卡片最小宽度",
+      "default": 340,
+      "min": 200,
+      "max": 640,
+      "help": "卡片自动分栏的最小宽度，建议 280-520"
+    },
+    {
+      "type": "string",
+      "key": "cardMetrics",
+      "label": "卡片展示指标",
+      "default": "[\"cpu\",\"memory\",\"disk\",\"traffic\"]",
+      "help": "填写 JSON 数组，可选 cpu、memory、disk、traffic；指标按固定顺序展示"
+    },
+    {
+      "type": "boolean",
+      "key": "lightCardContrast",
+      "label": "亮色卡片高对比度",
+      "default": false,
+      "help": "启用后，在亮色模式下为卡片添加阴影和边框，增强与背景的对比度"
+    },
+    {
+      "type": "select",
+      "key": "cardProgressLayout",
+      "label": "卡片进度条布局",
+      "default": "2col",
+      "options": [
+        {
+          "value": "1col",
+          "label": "1col"
+        },
+        {
+          "value": "2col",
+          "label": "2col"
+        }
+      ],
+      "help": "节点卡片中进度条的布局方式：1col 为一行一列，2col 为一行两列"
+    },
+    {
+      "type": "boolean",
+      "key": "tagsInSeparateRow",
+      "label": "标签单独一行显示",
+      "default": false,
+      "help": "启用后，自定义标签和价格标签将在运行时间上方单独一行常驻显示，而非 hover 时显示"
+    },
+    {
+      "type": "boolean",
+      "key": "uptimeTagWrap",
+      "label": "使用 Tag 包裹运行时间",
+      "default": false,
+      "help": "启用后，运行时间将使用 Tag 组件包裹显示，使用紫色作为标签颜色"
+    },
+    {
+      "type": "boolean",
+      "key": "trafficSplitColor",
+      "label": "流量统计分离颜色",
+      "default": true,
+      "help": "启用后，Card 视图下流量进度条下方的流量统计将使用绿色（上行）和蓝色（下行）区分显示"
+    },
+    {
+      "type": "title",
+      "label": "列表视图"
+    },
+    {
+      "type": "string",
+      "key": "listRowHeight",
+      "label": "行高度",
+      "default": "",
+      "help": "List 视图行高度（如 60px、4rem），留空使用默认高度"
+    },
+    {
+      "type": "select",
+      "key": "listStatusStyle",
+      "label": "状态显示样式",
+      "default": "tag",
+      "options": [
+        {
+          "value": "tag",
+          "label": "tag"
+        },
+        {
+          "value": "badge",
+          "label": "badge"
+        }
+      ],
+      "help": "List 视图中节点状态的显示样式：tag 为标签样式，badge 为徽章样式"
+    },
+    {
+      "type": "select",
+      "key": "listTagsStyle",
+      "label": "标签显示样式",
+      "default": "tag",
+      "options": [
+        {
+          "value": "tag",
+          "label": "tag"
+        },
+        {
+          "value": "badge",
+          "label": "badge"
+        }
+      ],
+      "help": "List 视图中节点标签的显示样式：tag 为标签样式，badge 为徽章样式"
+    },
+    {
+      "type": "string",
+      "key": "listColumnGap",
+      "label": "列间距",
+      "default": "12px",
+      "help": "List 视图各列之间的间距（如 12px、1rem）"
+    },
+    {
+      "type": "string",
+      "key": "listViewColumns",
+      "label": "显示列",
+      "default": "[\"status\",\"region\",\"name\",\"uptime\",\"tags\",\"os\",\"cpu\",\"mem\",\"disk\",\"traffic\"]",
+      "help": "List 视图下显示的列，JSON 数组格式"
+    },
+    {
+      "type": "string",
+      "key": "listColumnWidths",
+      "label": "列宽度配置",
+      "default": "{\"status\":\"76px\",\"region\":\"32px\",\"name\":\"minmax(200px, 1fr)\",\"uptime\":\"minmax(180px, 0.6fr)\",\"tags\":\"minmax(220px, 0.6fr)\",\"os\":\"120px\",\"cpu\":\"180px\",\"mem\":\"180px\",\"disk\":\"180px\",\"traffic\":\"180px\"}",
+      "help": "List 视图各列宽度配置，JSON 对象格式"
+    },
+    {
+      "type": "string",
+      "key": "listColumnPadding",
+      "label": "列内边距配置",
+      "default": "{}",
+      "help": "List 视图各列内边距配置，JSON 对象格式，格式参照 listColumnWidths"
+    },
+    {
+      "type": "string",
+      "key": "listColumnMargin",
+      "label": "列外边距配置",
+      "default": "{}",
+      "help": "List 视图各列外边距配置，JSON 对象格式，格式参照 listColumnWidths"
+    },
+    {
+      "type": "title",
+      "label": "页面与排版"
+    },
+    {
+      "type": "boolean",
+      "key": "fullWidth",
+      "label": "占满屏幕宽度",
+      "default": false,
+      "help": "启用后页面内容将占满整个屏幕宽度"
+    },
+    {
+      "type": "string",
+      "key": "maxPageWidth",
+      "label": "最大页面宽度",
+      "default": "1800px",
+      "help": "页面内容的最大宽度（如 1800px、100rem）"
+    },
+    {
+      "type": "string",
+      "key": "borderRadius",
+      "label": "圆角大小",
+      "default": "3px",
+      "help": "全局圆角大小（如 3px、0.5rem）"
+    },
+    {
+      "type": "string",
+      "key": "fontFamily",
+      "label": "字体",
+      "default": "\"MiSans VF\", sans-serif",
+      "help": "全局字体设置，多个字体用逗号分隔"
+    },
+    {
+      "type": "string",
+      "key": "numberFontFamily",
+      "label": "数字字体",
+      "default": "\"TCloud Number VF\", \"MiSans VF\", sans-serif",
+      "help": "数字显示专用字体，用于数值展示（如 CPU、内存、流量等）"
+    },
+    {
+      "type": "title",
+      "label": "亮色模式主题"
+    },
+    {
+      "type": "string",
+      "key": "lightPrimaryColor",
+      "label": "主色调",
+      "default": "#18a058",
+      "help": "亮色模式主色调"
+    },
+    {
+      "type": "string",
+      "key": "lightPrimaryColorHover",
+      "label": "主色调悬停色",
+      "default": "#36ad6a",
+      "help": "亮色模式按钮悬停颜色"
+    },
+    {
+      "type": "string",
+      "key": "lightPrimaryColorPressed",
+      "label": "主色调按下色",
+      "default": "#0c7a43",
+      "help": "亮色模式按钮按下颜色"
+    },
+    {
+      "type": "title",
+      "label": "暗色模式主题"
+    },
+    {
+      "type": "string",
+      "key": "darkPrimaryColor",
+      "label": "主色调",
+      "default": "#63e2b6",
+      "help": "暗色模式主色调"
+    },
+    {
+      "type": "string",
+      "key": "darkPrimaryColorHover",
+      "label": "主色调悬停色",
+      "default": "#7fe7c4",
+      "help": "暗色模式按钮悬停颜色"
+    },
+    {
+      "type": "string",
+      "key": "darkPrimaryColorPressed",
+      "label": "主色调按下色",
+      "default": "#5acea7",
+      "help": "暗色模式按钮按下颜色"
+    },
+    {
+      "type": "title",
+      "label": "格式化设置"
+    },
+    {
+      "type": "select",
+      "key": "uptimeFormat",
+      "label": "运行时间格式",
+      "default": "day",
+      "options": [
+        {
+          "value": "day",
+          "label": "day"
+        },
+        {
+          "value": "hour",
+          "label": "hour"
+        },
+        {
+          "value": "minute",
+          "label": "minute"
+        },
+        {
+          "value": "second",
+          "label": "second"
+        }
+      ],
+      "help": "运行时间显示精度：精确到天/小时/分钟/秒"
+    },
+    {
+      "type": "number",
+      "key": "byteDecimalsB",
+      "label": "B 精确位数",
+      "default": 0,
+      "min": -1,
+      "max": 4,
+      "help": "字节数显示精确位数，-1 为不显示此单位"
+    },
+    {
+      "type": "number",
+      "key": "byteDecimalsKB",
+      "label": "KB 精确位数",
+      "default": 0,
+      "min": -1,
+      "max": 4,
+      "help": "KB 显示精确位数，-1 为不显示此单位"
+    },
+    {
+      "type": "number",
+      "key": "byteDecimalsMB",
+      "label": "MB 精确位数",
+      "default": 1,
+      "min": -1,
+      "max": 4,
+      "help": "MB 显示精确位数，-1 为不显示此单位"
+    },
+    {
+      "type": "number",
+      "key": "byteDecimalsGB",
+      "label": "GB 精确位数",
+      "default": 1,
+      "min": -1,
+      "max": 4,
+      "help": "GB 显示精确位数，-1 为不显示此单位"
+    },
+    {
+      "type": "number",
+      "key": "byteDecimalsTB",
+      "label": "TB+ 精确位数",
+      "default": 2,
+      "min": -1,
+      "max": 4,
+      "help": "TB 及以上单位显示精确位数，-1 为不显示此单位"
+    },
+    {
+      "type": "title",
+      "label": "公告设置"
+    },
+    {
+      "type": "boolean",
+      "key": "alertEnabled",
+      "label": "启用公告",
+      "default": false,
+      "help": "在首页显示自定义公告"
+    },
+    {
+      "type": "select",
+      "key": "alertType",
+      "label": "公告类型",
+      "default": "info",
+      "options": [
+        {
+          "value": "default",
+          "label": "default"
+        },
+        {
+          "value": "info",
+          "label": "info"
+        },
+        {
+          "value": "success",
+          "label": "success"
+        },
+        {
+          "value": "warning",
+          "label": "warning"
+        },
+        {
+          "value": "error",
+          "label": "error"
+        }
+      ],
+      "help": "公告的显示类型"
+    },
+    {
+      "type": "string",
+      "key": "alertTitle",
+      "label": "公告标题",
+      "default": "",
+      "help": "公告的标题内容"
+    },
+    {
+      "type": "text",
+      "key": "alertContent",
+      "label": "公告内容",
+      "default": "",
+      "help": "公告的详细内容（支持简单 Markdown 格式）"
+    },
+    {
+      "type": "title",
+      "label": "备案设置"
+    },
+    {
+      "type": "boolean",
+      "key": "icpEnabled",
+      "label": "显示备案号",
+      "default": false,
+      "help": "在页脚显示网站备案号"
+    },
+    {
+      "type": "string",
+      "key": "icpNumber",
+      "label": "备案号",
+      "default": "",
+      "help": "网站备案号（如：京ICP备12345678号）"
+    },
+    {
+      "type": "string",
+      "key": "icpUrl",
+      "label": "备案跳转链接",
+      "default": "https://beian.miit.gov.cn/",
+      "help": "点击备案号跳转的链接地址"
+    },
+    {
+      "type": "boolean",
+      "key": "policeEnabled",
+      "label": "显示公安备案",
+      "default": false,
+      "help": "在页脚显示公安备案信息"
+    },
+    {
+      "type": "string",
+      "key": "policeNumber",
+      "label": "公安备案号",
+      "default": "",
+      "help": "公安备案号（如：京公网安备 11010502000000号）"
+    },
+    {
+      "type": "string",
+      "key": "policeUrl",
+      "label": "公安备案跳转链接",
+      "default": "",
+      "help": "点击公安备案号跳转的链接地址，留空则不跳转"
+    },
+    {
+      "type": "title",
+      "label": "自定义背景"
+    },
+    {
+      "type": "boolean",
+      "key": "backgroundEnabled",
+      "label": "启用自定义背景",
+      "default": false,
+      "help": "启用后可设置自定义图片或视频作为页面背景"
+    },
+    {
+      "type": "select",
+      "key": "backgroundType",
+      "label": "背景类型",
+      "default": "image",
+      "options": [
+        {
+          "value": "image",
+          "label": "image"
+        },
+        {
+          "value": "video",
+          "label": "video"
+        }
+      ],
+      "help": "选择背景类型：图片或视频"
+    },
+    {
+      "type": "string",
+      "key": "lightBackgroundUrl",
+      "label": "亮色模式背景地址",
+      "default": "",
+      "help": "亮色模式下的背景图片/视频 URL"
+    },
+    {
+      "type": "string",
+      "key": "darkBackgroundUrl",
+      "label": "暗色模式背景地址",
+      "default": "",
+      "help": "暗色模式下的背景图片/视频 URL"
+    },
+    {
+      "type": "number",
+      "key": "backgroundBlur",
+      "label": "背景模糊半径",
+      "default": 0,
+      "min": 0,
+      "max": 64,
+      "help": "背景的高斯模糊半径（单位：px），0 表示不模糊"
+    },
+    {
+      "type": "number",
+      "key": "cardBlurRadius",
+      "label": "卡片模糊半径",
+      "default": 12,
+      "min": 0,
+      "max": 64,
+      "help": "启用自定义背景后，卡片毛玻璃的模糊半径（单位：px），与背景模糊独立；0 表示保留透明玻璃材质但不模糊"
+    },
+    {
+      "type": "number",
+      "key": "backgroundOverlay",
+      "label": "背景遮罩透明度",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "help": "背景遮罩层的透明度（0-100），0 表示无遮罩，数值越大遮罩越深"
+    }
+  ]
+}

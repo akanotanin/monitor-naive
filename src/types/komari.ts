@@ -39,6 +39,8 @@ export interface Client {
   auto_renewal: boolean
   currency: string
   expired_at: string | null
+  /** 距到期天数，由极简探针 Hub 按日历日下发；null 表示未设置到期时间 */
+  expires_in?: number | null
   group: string
   tags: string
   hidden: boolean

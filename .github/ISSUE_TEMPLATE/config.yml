@@ -1,8 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-  - name: 📚 查看文档
-    url: https://github.com/lyimoexiao/komari-theme-naive#readme
-    about: 在提交 Issue 前，请先查阅项目文档，可能已有答案
-  - name: 💬 讨论区
-    url: https://github.com/lyimoexiao/komari-theme-naive/discussions
-    about: 如有一般性问题或想分享使用心得，欢迎到讨论区交流

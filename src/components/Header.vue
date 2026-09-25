@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { NAvatar, NButton, NFlex, NH3, NPopover } from 'naive-ui'
-import { computed, h, inject, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import LoginDialog from '@/components/LoginDialog.vue'
 import { useAppStore } from '@/stores/app'
-import { reconnectAfterLogin } from '@/utils/init'
 
 const router = useRouter()
 const appStore = useAppStore()
@@ -13,11 +11,6 @@ const appStore = useAppStore()
 const isScrolled = inject<ReturnType<typeof ref<boolean>>>('isScrolled', ref(false))
 
 const siteFavicon = ref('/favicon.ico')
-
-async function finishLogin() {
-  await reconnectAfterLogin()
-  window.$modal?.destroyAll()
-}
 
 // 计算页面容器的样式
 const containerStyle = computed(() => {
@@ -53,7 +46,7 @@ const actionButtons = computed(() => {
     buttons.push({
       title: '登录',
       icon: 'i-icon-park-outline-login',
-      action: 'openLoginDialog',
+      action: 'jumpToLogin',
       disabled: false,
     })
   }
@@ -70,13 +63,9 @@ function handleButtonClick(action: string) {
       // 设置页由 Server 提供，不能使用无极路由
       location.href = '/admin'
       break
-    case 'openLoginDialog':
-      window.$modal.create({
-        title: '登录',
-        preset: 'dialog',
-        showIcon: false,
-        content: () => h(LoginDialog, { afterLogin: finishLogin }),
-      })
+    case 'jumpToLogin':
+      // 登录入口由极简探针后台提供，登录后可直接返回本页
+      location.href = '/admin'
       break
   }
 }
@@ -88,7 +77,7 @@ function handleButtonClick(action: string) {
       <NFlex class="flex-center cursor-pointer" @click="router.push('/')">
         <NAvatar :src="siteFavicon" :fallback-src="`${siteFavicon}?avatar`" round />
         <NH3 class="m-0">
-          {{ appStore.publicSettings?.sitename || 'Komari Monitor' }}
+          {{ appStore.publicSettings?.sitename || 'Monitor' }}
         </NH3>
       </NFlex>
       <NFlex class="flex gap-4">

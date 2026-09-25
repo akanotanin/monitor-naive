@@ -1,26 +1,21 @@
-import type { Plugin } from 'vite'
 import { execSync } from 'node:child_process'
-import { existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
-
 import AutoImport from 'unplugin-auto-import/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
-
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
-// 使用 createRequire 支持 CommonJS 模块
+// 使用 createRequire 读取 package.json，避免额外的 JSON 类型配置
 const require = createRequire(import.meta.url)
-const fs = require('node:fs')
-const { ZipArchive } = require('archiver')
+const packageJson = require('./package.json')
 
-/**
- * 获取当前 Git commit hash（短格式）
- */
+/** 开发服务器代理的目标 Hub，默认指向本机的极简探针 */
+const hub = process.env.MONITOR_HUB || 'http://127.0.0.1:28080'
+
+/** 当前 Git commit hash（短格式） */
 function getCommitHash(): string {
   try {
     return execSync('git rev-parse --short HEAD', { encoding: 'utf-8' }).trim()
@@ -29,70 +24,6 @@ function getCommitHash(): string {
     return 'unknown'
   }
 }
-
-/**
- * Vite 插件：构建后打包 Komari 主题 Zip
- *
- * 生成符合 Komari 标准的主题包结构：
- * theme.zip
- * ├── komari-theme.json    # 主题配置文件
- * ├── preview.png          # 主题预览图
- * └── dist/                # 构建输出目录
- *     ├── index.html
- *     └── ...
- */
-function komariThemeZip(): Plugin {
-  return {
-    name: 'komari-theme-zip',
-    apply: 'build',
-    closeBundle: async () => {
-      const commitHash = getCommitHash()
-      const zipFileName = `komari-theme-naive-build-${commitHash}.zip`
-      const distDir = resolve(__dirname, 'dist')
-      const themeJsonPath = resolve(__dirname, 'komari-theme.json')
-      const previewPath = resolve(__dirname, 'docs/preview.png')
-      const outputPath = resolve(__dirname, zipFileName)
-
-      if (!existsSync(distDir)) {
-        console.log('[komari-theme-zip] dist directory not found, skipping zip creation')
-        return
-      }
-
-      const output = fs.createWriteStream(outputPath)
-      const archive = new ZipArchive({ zlib: { level: 9 } })
-
-      return new Promise((resolve, reject) => {
-        output.on('close', () => {
-          const sizeMB = (archive.pointer() / 1024 / 1024).toFixed(2)
-          console.log(`[komari-theme-zip] Created ${zipFileName} (${sizeMB} MB)`)
-          resolve(undefined)
-        })
-
-        archive.on('error', (err: Error) => {
-          console.error('[komari-theme-zip] Error:', err)
-          reject(err)
-        })
-
-        archive.pipe(output)
-
-        if (existsSync(themeJsonPath)) {
-          archive.file(themeJsonPath, { name: 'komari-theme.json' })
-        }
-
-        if (existsSync(previewPath)) {
-          archive.file(previewPath, { name: 'preview.png' })
-        }
-
-        archive.directory(distDir, 'dist')
-
-        archive.finalize()
-      })
-    },
-  }
-}
-
-// 读取 package.json 获取版本号
-const packageJson = require('./package.json')
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -120,7 +51,6 @@ export default defineConfig({
     Components({
       resolvers: [NaiveUiResolver()],
     }),
-    komariThemeZip(),
   ],
   resolve: {
     alias: {
@@ -129,6 +59,14 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
+    // 开发时把接口请求代理到真实的极简探针 Hub，设置 MONITOR_HUB 可指向远端
+    proxy: {
+      '/api': {
+        target: hub,
+        changeOrigin: true,
+        ws: true,
+      },
+    },
   },
   build: {
     // 调整 chunk 大小警告阈值

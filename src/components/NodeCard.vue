@@ -101,8 +101,8 @@ const priceTags = computed(() => {
   // price > 0 时显示
   if (node.price !== 0) {
     // 剩余天数标签
-    const days = getDaysUntilExpired(node.expired_at)
-    const status = getExpireStatus(node.expired_at)
+    const days = getDaysUntilExpired(node.expired_at, node.expires_in)
+    const status = getExpireStatus(node.expired_at, node.expires_in)
     const color = getExpireStatusHexColor(status)
 
     if (status === 'expired') {

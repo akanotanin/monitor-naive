@@ -1,10 +1,10 @@
-# Komari Naive Design System
+# Naive · 极简探针 Design System
 
 ## 1. Direction
 
-Komari Naive is a quiet operational dashboard. Preserve Naive UI's restrained green accent, neutral surfaces, fine borders, compact typography, and optional translucent background treatment. Optimization should improve scan speed and information density without turning the monitor into a decorative landing page.
+Naive · 极简探针 is a quiet operational dashboard. Preserve Naive UI's restrained green accent, neutral surfaces, fine borders, compact typography, and optional translucent background treatment. Optimization should improve scan speed and information density without turning the monitor into a decorative landing page.
 
-Reference note: Komari Emerald informs the group-aware summary behavior and compact dashboard hierarchy. Its globe, visitor, finance, and decorative surface treatments are intentionally excluded to preserve Naive's existing product scope and visual identity.
+Reference note: the Komari Emerald theme informs the group-aware summary behavior and compact dashboard hierarchy. Its globe, visitor, finance, and decorative surface treatments are intentionally excluded to preserve Naive's existing product scope and visual identity.
 
 ## 2. Foundations
 
@@ -55,6 +55,6 @@ Reference note: Komari Emerald informs the group-aware summary behavior and comp
 
 ## 8. Accepted debt
 
-- Theme-managed configuration currently supports string-based JSON for metric visibility; parsing remains defensive for compatibility with Komari's configuration schema.
+- Theme-managed configuration currently supports string-based JSON for metric visibility; parsing remains defensive for compatibility with the hub's configuration schema.
 - A standalone component showcase is not part of the repository; the live home route is the state harness for primitives.
 - Light-contrast variants retain their opaque recipes. Glass variants deliberately use shared Naive theme variables and `color-mix()` so their tint stays separate from default cards while reacting to the active background.

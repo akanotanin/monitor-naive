@@ -1,12 +1,11 @@
 {
-  "name": "komari-theme-naive",
+  "name": "monitor-theme-naive",
   "type": "module",
-  "version": "1.1.2",
+  "version": "1.0.0",
   "packageManager": "pnpm@11.15.1",
   "author": {
-    "name": "lyimoexiao",
-    "email": "lyimoexiao@outlook.com",
-    "url": "https://github.com/lyimoexiao"
+    "name": "akanotanin",
+    "url": "https://github.com/akanotanin"
   },
   "license": "MIT",
   "engines": {
@@ -21,7 +20,9 @@
     "type-check": "vue-tsc --build",
     "lint": "run-s lint:oxlint lint:eslint",
     "lint:oxlint": "oxlint . --fix",
-    "lint:eslint": "eslint . --fix --cache"
+    "lint:eslint": "eslint . --fix --cache",
+    "package": "run-s build package:archive",
+    "package:archive": "node scripts/package.mjs"
   },
   "dependencies": {
     "dayjs": "catalog:",
@@ -40,7 +41,6 @@
     "@vitejs/plugin-vue": "catalog:",
     "@vue/tsconfig": "catalog:",
     "@vueuse/core": "catalog:",
-    "archiver": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-format": "catalog:",
     "eslint-plugin-vue": "catalog:",

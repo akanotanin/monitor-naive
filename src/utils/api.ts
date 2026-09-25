@@ -1,107 +1,83 @@
-interface LoginRequest {
-  'username': string
-  'password': string
-  '2fa_code'?: string
-}
+import { loadConfig } from '@/monitor/config'
+import { isAdmin, preserveHours, site } from '@/monitor/transport'
+import type { MeInfo, PublicInfo, VersionInfo } from '@/types/komari'
 
-interface LoginResult {
-  'set-cookie': {
-    session_token: string
-  }
-}
+/**
+ * 极简探针公开接口封装
+ * 主题只关心「站点叫什么、我是不是管理员、数据保留多久、主题配置是什么」，
+ * 这些都由 Monitor 的 /api/me 与主题配置接口提供。
+ */
 
-interface ApiClientOptions {
-  baseUrl?: string
-  timeout?: number
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null
-}
-
+/** API 错误 */
 export class ApiError extends Error {
-  status: string
-  code?: number
+  status: number
 
-  constructor(message: string, status = 'error', code?: number) {
+  constructor(message: string, status = 0) {
     super(message)
     this.name = 'ApiError'
     this.status = status
-    this.code = code
   }
 }
 
-export class KomariApi {
-  private baseUrl: string
-  private timeout: number
-
-  constructor(options: ApiClientOptions = {}) {
-    this.baseUrl = (options.baseUrl ?? (import.meta.env.VITE_API_BASE || '/api')).replace(/\/$/, '')
-    this.timeout = options.timeout ?? 30000
-  }
-
-  private async post<T>(path: string, body: unknown): Promise<T> {
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), this.timeout)
-
-    try {
-      const response = await fetch(`${this.baseUrl}${path}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(body),
-        signal: controller.signal,
-      })
-      const result: unknown = await response.json()
-
-      if (!isRecord(result) || (result.status !== 'success' && result.status !== 'error') || typeof result.message !== 'string') {
-        throw new ApiError('Invalid API response', 'error', response.status)
-      }
-
-      if (!response.ok || result.status === 'error') {
-        throw new ApiError(result.message || `HTTP error: ${response.status}`, 'error', response.status)
-      }
-
-      return result.data as T
+export class MonitorApi {
+  /** 当前访客的登录状态与站点名称 */
+  async getMe(): Promise<MeInfo> {
+    const info = await site()
+    if (!info.public_page && !info.authed) {
+      // 站点未开放状态页：交给后台登录，登录后回到首页
+      location.assign('/admin/')
     }
-    catch (error) {
-      if (error instanceof ApiError)
-        throw error
-      throw new ApiError(`Network error: ${error instanceof Error ? error.message : String(error)}`)
-    }
-    finally {
-      clearTimeout(timeoutId)
+    return {
+      'logged_in': info.authed,
+      'username': info.authed ? '管理员' : '',
     }
   }
 
-  async login(username: string, password: string, twoFactorCode?: string): Promise<void> {
-    const body: LoginRequest = { username, password }
-    if (twoFactorCode) {
-      body['2fa_code'] = twoFactorCode
+  /** 站点公开属性 + 主题配置 */
+  async getPublicSettings(): Promise<PublicInfo> {
+    const [info, config] = await Promise.all([site(), loadConfig()])
+    const hours = preserveHours()
+    return {
+      cors_origin_check_enabled: false,
+      custom_body: '',
+      custom_head: '',
+      description: '',
+      disable_password_login: false,
+      oauth_enable: Boolean(info.github),
+      oauth_provider: info.github ? 'github' : null,
+      ping_record_preserve_time: hours,
+      private_site: !info.public_page,
+      record_enabled: true,
+      record_preserve_time: hours,
+      sitename: info.site_name || 'Monitor',
+      theme: 'naive',
+      theme_settings: config,
     }
-    await this.post<LoginResult>('/login', body)
   }
 
-  logout(): void {
-    window.location.href = `${this.baseUrl}/logout`
-  }
-
-  oauthLogin(): void {
-    window.location.href = `${this.baseUrl}/oauth`
+  /** 后端版本：极简探针的版本接口仅对管理员开放，这里给出可读的标识 */
+  async getVersion(): Promise<VersionInfo> {
+    return { version: 'Monitor', hash: '' }
   }
 }
 
-let sharedApi: KomariApi | null = null
+// ==================== 单例 ====================
 
-export function getSharedApi(): KomariApi {
-  if (!sharedApi) {
-    sharedApi = new KomariApi()
-  }
-  return sharedApi
+let sharedApiInstance: MonitorApi | null = null
+
+/** 获取共享实例 */
+export function getSharedApi(): MonitorApi {
+  if (!sharedApiInstance)
+    sharedApiInstance = new MonitorApi()
+  return sharedApiInstance
 }
 
+/** 重置共享实例 */
 export function resetSharedApi(): void {
-  sharedApi = null
+  sharedApiInstance = null
 }
+
+/** 当前访客是否为已登录管理员 */
+export { isAdmin }
+
+export default MonitorApi

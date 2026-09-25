@@ -32,6 +32,8 @@ export interface NodeData {
   auto_renewal: boolean
   currency: string
   expired_at: string
+  /** 距到期天数，由极简探针 Hub 按日历日下发；null 表示未设置到期时间 */
+  expires_in?: number | null
   group: string
   tags: string
   hidden: boolean
@@ -150,6 +152,7 @@ const useNodesStore = defineStore('nodes', () => {
       auto_renewal: client.auto_renewal,
       currency: client.currency,
       expired_at: client.expired_at ?? '',
+      expires_in: client.expires_in ?? null,
       group: client.group,
       tags: client.tags,
       hidden: client.hidden,

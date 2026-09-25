@@ -61,13 +61,13 @@ const showFiling = computed(() => showIcp.value || showPolice.value)
             Powered by
           </NText>
           <a
-            href="https://github.com/komari-monitor/komari"
+            href="https://github.com/monitor-probe/monitor"
             target="_blank"
             rel="noopener noreferrer"
             class="text-decoration-none transition-opacity hover:opacity-80"
           >
             <NText type="primary" class="text-sm font-medium">
-              Komari Monitor
+              极简探针 Monitor
             </NText>
           </a>
           <NText v-if="formattedServerVersion" :depth="3" class="text-xs font-mono ml-1">
@@ -81,13 +81,13 @@ const showFiling = computed(() => showIcp.value || showPolice.value)
             Theme by
           </NText>
           <a
-            href="https://github.com/lyimoexiao/komari-theme-naive"
+            href="https://github.com/akanotanin/komari-theme-naive-monitor"
             target="_blank"
             rel="noopener noreferrer"
             class="text-decoration-none transition-opacity hover:opacity-80"
           >
             <NText type="primary" class="text-sm font-medium">
-              Komari Naive
+              Naive · 极简探针
             </NText>
           </a>
           <NText :depth="3" class="text-xs font-mono ml-1">

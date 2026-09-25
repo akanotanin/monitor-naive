@@ -29,17 +29,10 @@ coverage
 
 .eslintcache
 
-.env.development
-!.env.development
-# Cypress
-/cypress/videos/
-/cypress/screenshots/
-
-# Vitest
-__screenshots__/
+.env.local
 
 # Vite
 *.timestamp-*-*.mjs
 
-# Theme build output
-komari-theme-naive-build-*.zip
+# 主题打包产物
+release/

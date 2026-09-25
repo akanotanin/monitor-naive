@@ -158,9 +158,14 @@ export function getBillingCycleText(billingCycle: number, lang: 'zh-CN' | 'en-US
 /**
  * 计算距离过期的天数
  * @param expiredAt 过期时间（字符串或时间戳）
+ * @param expiresIn 后端下发的剩余天数，优先使用
  * @returns 距离过期的天数，负数表示已过期
  */
-export function getDaysUntilExpired(expiredAt: string | number | undefined): number {
+export function getDaysUntilExpired(expiredAt: string | number | undefined, expiresIn?: number | null): number {
+  // 极简探针按日历日下发剩余天数，优先采用，避免访客时区差异把今天到期的节点判成已过期
+  if (typeof expiresIn === 'number' && Number.isFinite(expiresIn))
+    return expiresIn
+
   if (!expiredAt)
     return 0
 
@@ -176,13 +181,16 @@ export function getDaysUntilExpired(expiredAt: string | number | undefined): num
 /**
  * 获取过期状态
  * @param expiredAt 过期时间
+ * @param expiresIn 后端下发的剩余天数，优先使用
  * @returns 过期状态
  */
-export function getExpireStatus(expiredAt: string | number | undefined): ExpireStatus {
-  if (!expiredAt)
-    return 'long_term'
+export function getExpireStatus(expiredAt: string | number | undefined, expiresIn?: number | null): ExpireStatus {
+  if (typeof expiresIn !== 'number' || !Number.isFinite(expiresIn)) {
+    if (!expiredAt)
+      return 'long_term'
+  }
 
-  const days = getDaysUntilExpired(expiredAt)
+  const days = getDaysUntilExpired(expiredAt, expiresIn)
 
   if (days <= 0)
     return 'expired'
