@@ -1,0 +1,139 @@
+name: 🐛 Bug 报告
+description: 报告主题的 Bug 或问题
+title: '[Bug]: '
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您花时间填写此 Bug 报告！请尽可能详细地描述问题。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      description: 请清晰简洁地描述您遇到的问题
+      placeholder: 例如：节点卡片在深色模式下 CPU 使用率显示不正确
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 请提供复现问题的详细步骤
+      placeholder: |
+        1. 切换到深色模式
+        2. 查看节点卡片
+        3. 观察 CPU 使用率显示
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+      description: 请描述您期望发生什么
+      placeholder: 例如：CPU 使用率应该正确显示当前百分比
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      description: 请描述实际发生了什么
+      placeholder: 例如：CPU 使用率显示为负数
+    validations:
+      required: true
+
+  - type: dropdown
+    id: theme-mode
+    attributes:
+      label: 主题模式
+      description: 问题出现在哪种主题模式下？
+      multiple: true
+      options:
+        - 亮色模式
+        - 暗色模式
+        - 自动模式
+    validations:
+      required: true
+
+  - type: dropdown
+    id: view-mode
+    attributes:
+      label: 视图模式
+      description: 问题出现在哪种视图模式下？
+      multiple: true
+      options:
+        - 卡片视图 (Card)
+        - 列表视图 (List)
+    validations:
+      required: true
+
+  - type: input
+    id: theme-version
+    attributes:
+      label: 主题版本
+      description: 您使用的 Komari Theme Naive 版本
+      placeholder: 例如：v1.0.4
+    validations:
+      required: true
+
+  - type: input
+    id: komari-version
+    attributes:
+      label: Komari 版本
+      description: 您使用的 Komari 后端版本
+      placeholder: 例如：v0.1.0
+
+  - type: textarea
+    id: browser
+    attributes:
+      label: 浏览器信息
+      description: 请提供浏览器信息
+      placeholder: |
+        - 浏览器：Chrome 120
+        - 操作系统：macOS 14.0
+      value: |
+        - 浏览器：
+        - 操作系统：
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: 主题配置
+      description: 如果可能，请提供相关的主题配置（可从 Komari 后台复制）
+      placeholder: |
+        例如：
+        - 主色调：#18a058
+        - 视图模式：Card
+        - 数据更新间隔：3秒
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 控制台日志
+      description: 如果有相关的浏览器控制台错误日志，请粘贴在这里
+      placeholder: 请粘贴浏览器控制台的错误信息
+      render: shell
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图
+      description: 如果有截图能帮助解释问题，请在这里添加
+      placeholder: 拖拽图片到此处或粘贴截图
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 其他信息
+      description: 还有其他需要补充的信息吗？

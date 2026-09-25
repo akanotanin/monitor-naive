@@ -1,0 +1,97 @@
+name: ✨ 功能请求
+description: 提议一个新功能或改进
+title: '[Feature]: '
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您提出功能请求！请详细描述您的想法。
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题背景
+      description: 您的功能请求是否与某个问题相关？请描述。
+      placeholder: 例如：我希望能自定义节点卡片的显示顺序，但目前只能按默认顺序排列
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 期望的解决方案
+      description: 请描述您希望实现的功能
+      placeholder: 例如：希望能在配置中添加节点排序选项，支持按名称、状态、CPU使用率等排序
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: 功能类型
+      description: 这个功能属于哪个类型？
+      options:
+        - 界面展示
+        - 配置选项
+        - 图表功能
+        - 性能优化
+        - 其他
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-scope
+    attributes:
+      label: 影响范围
+      description: 这个功能会影响到哪些组件？
+      multiple: true
+      options:
+        - 节点卡片 (NodeCard)
+        - 节点列表 (NodeList)
+        - 节点详情页 (InstanceDetail)
+        - 负载图表 (LoadChart)
+        - 延迟图表 (PingChart)
+        - 流量进度条 (TrafficProgress)
+        - Header 组件
+        - Footer 组件
+        - 登录组件
+        - 全局主题配置
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 备选方案
+      description: 您是否考虑过其他替代方案？
+      placeholder: 例如：或者可以添加拖拽排序功能
+
+  - type: textarea
+    id: config-example
+    attributes:
+      label: 配置建议
+      description: 如果这是新的配置项，请提供配置格式的建议
+      placeholder: |
+        例如：
+        ```json
+        {
+          "nodeSortBy": "name",
+          "nodeSortOrder": "asc",
+          "nodeSortOptions": ["name", "status", "cpu", "mem", "uptime"]
+        }
+        ```
+
+  - type: textarea
+    id: references
+    attributes:
+      label: 参考示例
+      description: 是否有其他项目实现了类似功能？可以提供参考链接
+      placeholder: 例如：类似的功能可以参考某某主题的实现
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 其他信息
+      description: 还有其他需要补充的信息吗？

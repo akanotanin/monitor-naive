@@ -1,0 +1,72 @@
+name: ❓ 配置问题
+description: 主题配置或使用方面的疑问
+title: '[Config]: '
+labels: [question]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您提出配置问题！请尽可能详细地描述您的疑问。
+
+  - type: textarea
+    id: question
+    attributes:
+      label: 您的问题
+      description: 请描述您遇到的配置问题或疑问
+      placeholder: 例如：如何修改主色调？如何自定义列表视图的显示列？
+    validations:
+      required: true
+
+  - type: dropdown
+    id: config-category
+    attributes:
+      label: 配置类别
+      description: 您的问题属于哪个配置类别？
+      options:
+        - 基础设置（数据更新间隔、RPC 模式等）
+        - 页面布局（宽度、圆角、字体等）
+        - 主题颜色（亮色/暗色模式主色调）
+        - 列表视图（列配置、行高等）
+        - 格式化设置（运行时间、字节单位等）
+        - 公告设置
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-config
+    attributes:
+      label: 当前配置
+      description: 请提供您当前的配置内容（如果有）
+      placeholder: |
+        请粘贴您在 Komari 后台设置的主题配置
+      render: json
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 期望效果
+      description: 请描述您希望达到的效果
+      placeholder: 例如：希望将主色调改为蓝色，并且深色模式下也使用相同的颜色
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图
+      description: 如果有截图能帮助解释问题，请在这里添加
+      placeholder: 拖拽图片到此处或粘贴截图
+
+  - type: input
+    id: theme-version
+    attributes:
+      label: 主题版本
+      description: 您使用的 Komari Theme Naive 版本
+      placeholder: 例如：v1.0.4
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 其他信息
+      description: 还有其他需要补充的信息吗？
