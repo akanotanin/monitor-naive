@@ -4,8 +4,6 @@
 
 将 [lyimoexiao/komari-theme-naive](https://github.com/lyimoexiao/komari-theme-naive) 移植到 [极简探针 Monitor](https://github.com/monitor-probe/monitor) 的主题，取名 **Monitor Naive**。基于原版 v1.1.2 的 Vue 源码、组件、样式与资源，数据改由 Monitor 的 REST / WebSocket 接口提供，不需要 Komari 服务器。
 
-当前版本 1.0.1，保留原项目 MIT 许可与作者署名；移植与适配 by akanotanin。主题的内部标识保持 `naive`（安装目录名与配置键）。
-
 ## 主要功能
 
 - **卡片与列表双视图**：卡片支持 compact / comfortable / spacious 三种密度，列表视图的显示列、列宽、行高、内边距都可配置；窄屏自动单列。
@@ -15,34 +13,10 @@
 - **延迟图表**：展示 Hub 的 Ping 任务线路，含延迟曲线与丢包统计。
 - **主题外观**：亮色 / 暗色 / 跟随系统，亮暗两套主色调、字体、圆角、页面宽度、卡片进度条布局均可配置。
 - **自定义背景**：图片或视频背景，背景模糊、卡片毛玻璃半径、遮罩透明度独立可调。
-- **公告与备案**：Markdown 公告（含标题与类型）、ICP 与公安备案号。
 
-## 更新
+### 更新
 
-### 1.0.5
-
-- 列表视图默认列把「网络速率」挪到「运行时间」前面。
-
-### 1.0.4
-
-- `preview.png` 换成去掉页脚与价格标签后的卡片视图。
-
-### 1.0.3
-
-- 去掉页脚署名栏（Powered by / Theme by），页脚只在启用备案号时出现。
-- 卡片与列表不再显示「剩余 N 天」与价格标签。
-- 列表视图默认列把「标签」换成「网络速率」（↑ / ↓ 两行显示）。
-
-### 1.0.2
-
-- 仓库地址改为 `monitor-theme-naive`，主题清单里的更新地址同步指向新地址。
-
-### 1.0.1
-
-- 主题改名为 **Monitor Naive**（原「Naive · 极简探针」），浏览器标题与页脚署名同步更新。
-- 仓库更名，主题清单里的更新地址指向新仓库。
-
-### 1.0.0
+1.0.0
 
 - 首次发布：把 Komari 主题 Naive（v1.1.2）移植到极简探针 Monitor 1.3.0。
 - 新增 `src/monitor/` 适配层（传输、数据映射、主题配置三个边界），原主题的组件、store、样式保持原样。
@@ -128,10 +102,6 @@ pnpm package    # 生成 release/theme.tar.gz
 ```bash
 MONITOR_HUB=https://hub.example.com pnpm dev
 ```
-
-`preview.png` 是 1440×900 的首页截图，使用演示数据；重新截图时不要记录真实访客信息。
-
-发布新版本：把 `theme.json` 与 `package.json` 的版本号改成同一个版本，推送 `x.y.z` 格式的 tag，GitHub Actions 会自动构建并创建带 `theme.tar.gz` 的 Release。
 
 ## 许可
 
