@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from 'vue'
 import Background from '@/components/Background.vue'
-import Footer from '@/components/Footer.vue'
 import Header from '@/components/Header.vue'
 import LoadingCover from '@/components/LoadingCover.vue'
 import Provider from '@/components/Provider.vue'
@@ -71,7 +70,6 @@ onUnmounted(() => {
         </RouterView>
       </div>
     </main>
-    <Footer v-if="!appStore.loading" />
   </Provider>
 </template>
 

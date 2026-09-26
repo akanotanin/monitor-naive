@@ -477,56 +477,6 @@ const useAppStore = defineStore('app', () => {
     return ''
   })
 
-  // 计算属性：ICP 备案配置
-  const icpEnabled = computed<boolean>(() => {
-    const settings = publicSettings.value?.theme_settings
-    if (settings && typeof settings.icpEnabled === 'boolean') {
-      return settings.icpEnabled
-    }
-    return false
-  })
-
-  const icpNumber = computed<string>(() => {
-    const settings = publicSettings.value?.theme_settings
-    if (settings && typeof settings.icpNumber === 'string') {
-      return settings.icpNumber
-    }
-    return ''
-  })
-
-  const icpUrl = computed<string>(() => {
-    const settings = publicSettings.value?.theme_settings
-    if (settings && typeof settings.icpUrl === 'string' && settings.icpUrl.trim()) {
-      return settings.icpUrl.trim()
-    }
-    return 'https://beian.miit.gov.cn/'
-  })
-
-  // 计算属性：公安备案配置
-  const policeEnabled = computed<boolean>(() => {
-    const settings = publicSettings.value?.theme_settings
-    if (settings && typeof settings.policeEnabled === 'boolean') {
-      return settings.policeEnabled
-    }
-    return false
-  })
-
-  const policeNumber = computed<string>(() => {
-    const settings = publicSettings.value?.theme_settings
-    if (settings && typeof settings.policeNumber === 'string') {
-      return settings.policeNumber
-    }
-    return ''
-  })
-
-  const policeUrl = computed<string>(() => {
-    const settings = publicSettings.value?.theme_settings
-    if (settings && typeof settings.policeUrl === 'string' && settings.policeUrl.trim()) {
-      return settings.policeUrl.trim()
-    }
-    return ''
-  })
-
   // 计算属性：自定义背景配置
   const backgroundEnabled = computed<boolean>(() => {
     const settings = publicSettings.value?.theme_settings
@@ -681,12 +631,6 @@ const useAppStore = defineStore('app', () => {
     alertType,
     alertTitle,
     alertContent,
-    icpEnabled,
-    icpNumber,
-    icpUrl,
-    policeEnabled,
-    policeNumber,
-    policeUrl,
     backgroundEnabled,
     backgroundType,
     lightBackgroundUrl,

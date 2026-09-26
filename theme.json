@@ -2,7 +2,7 @@
   "name": "Monitor Naive",
   "short": "naive",
   "description": "极简探针（Monitor）的 Naive UI 风格主题：卡片 / 列表双视图、节点详情多标签图表、亮暗色与自定义背景。",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": "lyimoexiao（原主题作者）· 移植到 Monitor by akanotanin",
   "url": "https://github.com/akanotanin/monitor-theme-naive",
   "config": [
@@ -467,52 +467,6 @@
       "label": "公告内容",
       "default": "",
       "help": "公告的详细内容（支持简单 Markdown 格式）"
-    },
-    {
-      "type": "title",
-      "label": "备案设置"
-    },
-    {
-      "type": "boolean",
-      "key": "icpEnabled",
-      "label": "显示备案号",
-      "default": false,
-      "help": "在页脚显示网站备案号"
-    },
-    {
-      "type": "string",
-      "key": "icpNumber",
-      "label": "备案号",
-      "default": "",
-      "help": "网站备案号（如：京ICP备12345678号）"
-    },
-    {
-      "type": "string",
-      "key": "icpUrl",
-      "label": "备案跳转链接",
-      "default": "https://beian.miit.gov.cn/",
-      "help": "点击备案号跳转的链接地址"
-    },
-    {
-      "type": "boolean",
-      "key": "policeEnabled",
-      "label": "显示公安备案",
-      "default": false,
-      "help": "在页脚显示公安备案信息"
-    },
-    {
-      "type": "string",
-      "key": "policeNumber",
-      "label": "公安备案号",
-      "default": "",
-      "help": "公安备案号（如：京公网安备 11010502000000号）"
-    },
-    {
-      "type": "string",
-      "key": "policeUrl",
-      "label": "公安备案跳转链接",
-      "default": "",
-      "help": "点击公安备案号跳转的链接地址，留空则不跳转"
     },
     {
       "type": "title",
